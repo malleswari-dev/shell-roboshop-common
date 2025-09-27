@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./commo.sh
+source ./common.sh
 app_name=cart
 app_setup
 nodejs_setup
