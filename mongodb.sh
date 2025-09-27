@@ -1,6 +1,6 @@
 #!/bin/bash
 source ./common.sh
-app_name=catalogue
+app_name=mongodb
 
 check_root
 
