@@ -163,6 +163,25 @@ java_setup () {
     VALIDATE $? "moving to shipping.jar"
 }
 
+rabbitmq_setup () {
+    cp $SCRIPT_DIR/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo &>>$LOG_FILE
+    VALIDATE $? "copy systemd service"
+
+    dnf install rabbitmq-server -y &>>$LOG_FILE
+    VALIDATE $? "install rabbitmq"
+
+    systemctl enable rabbitmq-server &>>$LOG_FILE
+    VALIDATE $? "enable rabbitmq"
+
+    systemctl start rabbitmq-server &>>$LOG_FILE
+    VALIDATE $? "start rabbitmq"
+    rabbitmqctl add_user roboshop roboshop123 &>>$LOG_FILE
+    #VALIDATE $? "add user"
+    rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>>$LOG_FILE
+    VALIDATE $? "rabbitmq permissions"
+}
+
+
 app_restart () {
     systemctl restart $app_name
     VALIDATE $? "restart $app_name"
