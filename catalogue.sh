@@ -22,6 +22,6 @@ fi
 #mongosh --host $MONGODB_HOST </app/db/master-data.js &>> LOG_FILE
 #VALIDATE $? "load catalogue products"
 
-systemctl_restart
+app_restart
 
 print_total_time
