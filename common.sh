@@ -152,6 +152,17 @@ mysql_setup () {
     mysql_secure_installation --set-root-pass RoboShop@1 &>>$LOG_FILE
     VALIDATE $? "set password"
 }
+
+java_setup () {
+    dnf install maven -y &>>$LOG_FILE
+    VALIDATE $? "install maven"
+    mvn clean package &>>$LOG_FILE
+    VALIDATE $? "cleaning package"
+
+    mv target/shipping-1.0.jar shipping.jar &>>$LOG_FILE
+    VALIDATE $? "moving to shipping.jar"
+}
+
 app_restart () {
     systemctl restart $app_name
     VALIDATE $? "restart $app_name"
