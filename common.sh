@@ -10,6 +10,7 @@ LOGS_FOLDER="/var/log/shell-roboshop"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
 SCRIPT_DIR=$PWD
 MONGODB_HOST=mongodb.malleswari.fun
+MYSQL_HOST=mysql.malleswari.fun
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
 # /var/log/shell-practice/16-logs/log
 START_TIME=$(date +%s)
@@ -189,6 +190,16 @@ python_setup () {
     VALIDATE $? "install pip3"
 }
 
+nginx_setup () {
+    dnf module disable nginx -y &>>$LOG_FILE
+    VALIDATE $? "disable nginx"
+
+    dnf module enable nginx:1.24 -y &>>$LOG_FILE
+    VALIDATE $? "enable nginx:1.24"
+
+    dnf install nginx -y &>>$LOG_FILE
+    VALIDATE $? "install nginx"
+}
 app_restart () {
     systemctl restart $app_name
     VALIDATE $? "restart $app_name"
